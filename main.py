@@ -39,7 +39,7 @@ def main():
 def duetoSozinho():
     print ("\n----------------------------------------\n")
     print ("\nVocê escolheu a opção de Jogar Dueto, no modo SinglePlayer:\n")
-    respostaEscolhida = list(possiveisRespostas[random.randint(0, len(possiveisRespostas)-1)][0])
+    respostaEscolhida = list(respostasAceitas[random.randint(0, len(respostasAceitas)-1)][0])
     print ("A resposta foi selecionada! Você terá 6 chances para descobrir qual palavra será!\n")
     for i in range(6):
         checarAlgo = []
