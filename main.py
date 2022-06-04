@@ -43,7 +43,7 @@ def duetoSozinho():
     print ("A resposta foi selecionada! Você terá 6 chances para descobrir qual palavra será!\n")
     for i in range(6):
         checarAlgo = []
-        letras = []
+        letras = [] 
         tentativa = list(input("Descubra a palavra. Você tem mais %d chance(s)\n" %(6-i)))
         for letra in tentativa:
             if letra in respostaEscolhida:
@@ -86,39 +86,53 @@ def identificador():
         pontuacaoTermos = []
         for possibilidades in possiveisTermos:
             pontuacaoTermos.append(possibilidades[1])
-        indexMaiorPontuacao = numpy.where(numpy.array(pontuacaoTermos) == max(pontuacaoTermos))
-        print("Insira o input que você inseriu:\n")
+        indexMaiorPontuacao = numpy.where(numpy.array(pontuacaoTermos) == max(pontuacaoTermos))[0]
+        print("\nInsira o input que você inseriu:\n")
         print("Recomendados", end=": ")
-        for index in indexMaiorPontuacao[0]:
-            if index == indexMaiorPontuacao[0][-1]:
-                print(possiveisTermos[index][0], end=". \n")    
+        for index in indexMaiorPontuacao:
+            if index == indexMaiorPontuacao[-1]:
+                print("\033[;1m\033[1;95m" + possiveisTermos[index][0] + "\033[0;0m", end=". \n")
+            elif index == indexMaiorPontuacao[-2]:
+                print("\033[;1m\033[1;95m" + possiveisTermos[index][0] + "\033[0;0m", end=" ou ")
             else:
-                print(possiveisTermos[index][0], end=", ")
+                print("\033[;1m\033[1;95m" + possiveisTermos[index][0] + "\033[0;0m", end=", ")
 
         tentativa = list(input())
         letrasNaoExistentes = list(set(tentativa))
 
-        print("\nInsira as letras que estão na palavra \033[;1m\033[1;93mporém na posição errada.\033[0;0m")
-        print("Se a letra estiver em mais de um lugar, especifique a posição da letra na palavra")
+        print("\nInsira as letras que estão na palavra \033[;1m\033[1;93mporém na posição errada.\033[0;0m Coloque as letras em ordem!")
+        print("Se a letra estiver em mais de um lugar, você pode especificar a posição da letra na palavra")
         posicoesErradasPrototipo = list(input())
         posicoesErradas = []
-        for letra in posicoesErradasPrototipo:
+        for index in range(len(posicoesErradasPrototipo)):
+            letra = posicoesErradasPrototipo[index]
             if any(map(str.isdigit,letra)):
                 posicoesErradas[-1] = [posicoesErradas[-1][0], int(letra)-1]
             else:
-                posicoesErradas.append([letra,tentativa.index(letra)])
+                if len(posicoesErradas) != 0:
+                    posicoesErradas.append([letra, tentativa.index(letra,posicoesErradas[-1][1])])
+                else:
+                    posicoesErradas.append([letra,tentativa.index(letra)])
+        print(posicoesErradas)
+                    
         for letra in posicoesErradas:
             if letra[0] in letrasNaoExistentes:
                 letrasNaoExistentes.remove(letra[0])
         
-        print("\nInsira, separando com espaço as letras que estão na palavra e na \033[;1m\033[1;92mposição certa.\033[0;0m\nSe a letra estiver em mais de um lugar, especifique a posição da letra na palavra")
+        print("\nInsira, separando com espaço as letras que estão na palavra e na \033[;1m\033[1;92mposição certa.\033[0;0m Coloque as letras em ordem!")
+        print("Se a letra estiver em mais de um lugar, você pode especificar a posição da letra na palavra")
         posicoesCertasPrototipo = list(input())
         posicoesCertas = []
-        for letra in posicoesCertasPrototipo:
+        for index in range(len(posicoesCertasPrototipo)):
+            letra = posicoesCertasPrototipo[index]
             if any(map(str.isdigit,letra)):
                 posicoesCertas[-1] = [posicoesCertas[-1][0], int(letra)-1]
             else:
-                posicoesCertas.append([letra,tentativa.index(letra)])
+                if len(posicoesCertas) != 0:
+                    posicoesCertas.append([letra, tentativa.index(letra,posicoesCertas[-1][1])])
+                else:
+                    posicoesCertas.append([letra,tentativa.index(letra)])
+        print(posicoesCertas)
         for letra in posicoesCertas:
             if letra[0] in letrasNaoExistentes:
                 letrasNaoExistentes.remove(letra[0])
@@ -173,15 +187,14 @@ def identificador():
             print("Temos algumas respostas... As possibilidades são ", end="")
             for possibilidade in possiveisRespostas:
                 if possibilidade == possiveisRespostas[-1]:
-                    print(possibilidade, end =".")
+                    print("\033[;1m\033[1;96m" + possibilidade + "\033[0;0m", end =".")
                 elif possibilidade == possiveisRespostas[-2]:
-                    print (possibilidade, end =" ou ")
+                    print ("\033[;1m\033[1;96m" + possibilidade + "\033[0;0m", end =" ou ")
                 else:
-                    print(possibilidade, end =", ")
+                    print("\033[;1m\033[1;96m" + possibilidade + "\033[0;0m", end =", ")
 
         else:
             print("Ainda temos muitas respostas, por favor tente inserir mais resultados!")
-        print("")
 
 def elaboraTermos(possiveisRespostas, possiveisTermos):
     resposta0 = []
